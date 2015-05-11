@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQCloud Example</title>
+    <link rel="stylesheet" type="text/css" href="jqcloud.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script type="text/javascript" src="jqcloud-1.0.4.js"></script>
+    <script type="text/javascript">
+
+		
+
+      /*!
+       * Create an array of word objects, each representing a word in the cloud
+       */
+      var word_array = [
+          {text: "Twinkle", weight: 15},
+          {text: "Teja", weight: 9, link: "http://jquery.com/"},
+          {text: "George", weight: 6, html: {title: "I can haz any html attribute"}},
+          {text: "Robin", weight: 7},
+          {text: "Leena", weight: 5}
+          // ...as many words as you want
+          
+      ];
+
+      $(function() {
+        // When DOM is ready, select the container element and call the jQCloud method, passing the array of words as the first argument.
+       $("#example").jQCloud(word_array);
+      
+      });
+
+	
+
+
+	var jsonObj = new Array()
+	$(function() 
+		{ 
+			
+			$.getJSON( "http://localhost:8080/RecSys/service/locations?pageNo=1", function(data) 
+			{
+				
+				
+					for(var i=0;i<data.data.length;i++)
+					{
+					item = {}
+        				item ["text"] = data.data[i].name;
+        				item ["weight"] = data.data[i].count;
+					jsonObj.push(item); 
+					}
+
+      		 	var json2 =		{	
+					handlers: 
+						{click: function() {
+							
+						alert(JSON.stringify(data.data));
+								
+								}}
+					}
+						
+  						
+				for(var i=0;i<data.data.length;i++)
+					{
+      					$.extend( true, jsonObj[i], json2);
+					}
+		
+ 		$("#example2").jQCloud(jsonObj);
+			
+			});
+                
+		});
+
+	<!--Adding attributes to the json  object -->
+      
+  			
+	
+
+    </script>
+  </head>
+  <body>
+    <!-- You should explicitly specify the dimensions of the container element -->
+    <div id="example" style="width: 550px; height: 350px;"></div>
+    <div id="example2" style="width: 550px; height: 350px;"></div>
+  </body>
+</html>
